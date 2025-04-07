@@ -1,0 +1,70 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // definindo as categorias e os modelos
+        string[] categorias = { "Hatch", "Sedan", "SUV" };
+        string[,] modelosHatch = { { "Fusca", "R$ 40.000", "1.0", "12 km/l" }, { "Palio", "R$ 45.000", "1.4", "14 km/l" } };
+        string[,] modelosSedan = { { "Civic", "R$ 90.000", "2.0", "10 km/l" }, { "Corolla", "R$ 95.000", "2.0", "11 km/l" } };
+        string[,] modelosSUV = { { "HR-V", "R$ 110.000", "1.8", "9 km/l" }, { "Creta", "R$ 115.000", "2.0", "8 km/l" } };
+
+        // loop principal do programa
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("Escolha uma categoria de carro:");
+            for (int i = 0; i < categorias.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {categorias[i]}");
+            }
+
+            // checagem da categoria escolhida
+            int categoriaEscolhida;
+            while (!int.TryParse(Console.ReadLine(), out categoriaEscolhida) || categoriaEscolhida < 1 || categoriaEscolhida > 3)
+            {
+                Console.WriteLine("Escolha uma categoria válida (1, 2 ou 3):");
+            }
+
+            // exibir os modelos com base na categoria escolhida
+            string[,] modelos = categoriaEscolhida switch
+            {
+                1 => modelosHatch,
+                2 => modelosSedan,
+                3 => modelosSUV,
+                _ => throw new InvalidOperationException()
+            };
+
+            Console.Clear();
+            Console.WriteLine($"Modelos disponíveis em {categorias[categoriaEscolhida - 1]}:");
+            for (int i = 0; i < modelos.GetLength(0); i++)
+            {
+                Console.WriteLine($"{i + 1}. {modelos[i, 0]}");
+            }
+
+            // checagem do modelo escolhido
+            int modeloEscolhido;
+            while (!int.TryParse(Console.ReadLine(), out modeloEscolhido) || modeloEscolhido < 1 || modeloEscolhido > modelos.GetLength(0))
+            {
+                Console.WriteLine("Escolha um modelo válido:");
+            }
+
+            // mostrar informações do modelo escolhido
+            Console.Clear();
+            Console.WriteLine($"Informações do modelo {modelos[modeloEscolhido - 1, 0]}:");
+            Console.WriteLine($"Preço: {modelos[modeloEscolhido - 1, 1]}");
+            Console.WriteLine($"Motor: {modelos[modeloEscolhido - 1, 2]}");
+            Console.WriteLine($"Consumo: {modelos[modeloEscolhido - 1, 3]}");
+
+            // perguntar se deseja consultar outro modelo mas essa é meio obvia
+            Console.WriteLine("\nDeseja consultar outro modelo? (s/n)");
+            string resposta = Console.ReadLine().ToLower();
+            if (resposta != "s")
+            {
+                Console.WriteLine("Tchauuuu...");
+                break;
+            }
+        }
+    }
+}
